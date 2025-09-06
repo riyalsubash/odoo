@@ -42,7 +42,7 @@ This platform connects buyers and sellers efficiently, allowing users to find un
 
 2. **Database Setup**  
    - Open **phpMyAdmin**.  
-   - Create a new database (e.g., `rebayan_db`).  
+   - Create a new database (e.g., `rebayan`).  
    - Import the provided `.sql` file to create all the necessary tables.
 
 3. **Configure Connection**  
@@ -67,19 +67,54 @@ erDiagram
         varchar name
         varchar username
         varchar email
+        varchar phone_number
+        varchar password
+        tinyint is_verified
+        varchar verification_token
+        varchar reset_token
+        datetime reset_token_expires_at
     }
+
     products {
         int id PK
         int user_id FK
         varchar title
+        text description
+        varchar category
         decimal price
+        int quantity
+        varchar product_condition
+        text image_paths
+        enum status
     }
+
     orders {
         int id PK
         int product_id FK
         int buyer_id FK
         int seller_id FK
+        enum order_status
     }
+
+    purchases {
+        int id PK
+        int buyer_id FK
+        int product_id FK
+        timestamp purchase_date
+    }
+
+    notifications {
+        int id PK
+        int user_id FK
+        text message
+        varchar link
+        tinyint is_read
+    }
+
     users ||--o{ products : "lists"
-    users ||--o{ orders : "buys/sells"
-    products ||--o{ orders : "is_in"
+    users ||--o{ orders : "places (as buyer)"
+    users ||--o{ orders : "receives (as seller)"
+    users ||--o{ purchases : "buys"
+    users ||--o{ notifications : "receives"
+    products ||--o{ orders : "is requested in"
+    products ||--o{ purchases : "is purchased in"
