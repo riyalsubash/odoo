@@ -42,7 +42,7 @@ This platform connects buyers and sellers efficiently, allowing users to find un
 
 2. **Database Setup**  
    - Open **phpMyAdmin**.  
-   - Create a new database (e.g., `rebayan_db`).  
+   - Create a new database (e.g., `rebayan`).  
    - Import the provided `.sql` file to create all the necessary tables.
 
 3. **Configure Connection**  
