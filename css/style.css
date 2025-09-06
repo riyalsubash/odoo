@@ -1,0 +1,727 @@
+/* General Body & Variable Styles */
+:root {
+    --primary-color: #4CAF50;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --card-bg-color: #fff;
+    --border-color: #ddd;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+.container { padding: 20px; }
+
+/* =================================
+   MOBILE FIRST STYLES (Default)
+   ================================= */
+
+/* --- Header and Navigation (Mobile) --- */
+.navbar {
+    background-color: var(--card-bg-color);
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.logo { font-size: 1.5em; font-weight: bold; color: var(--primary-color); text-decoration: none; }
+.nav-links {
+    list-style: none; margin: 0; padding: 0;
+    display: none; /* Mobile-la default-ah maraichi vekirom */
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    position: absolute;
+    top: 65px; left: 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+.nav-links.active { display: flex; } /* JS vachu click pannona kaatrom */
+.nav-links li { text-align: center; border-top: 1px solid var(--border-color); }
+.nav-links li a { text-decoration: none; color: var(--text-color); display: block; padding: 1rem; }
+.menu-toggle {
+    display: block; /* Mobile-la mattum kaatrom */
+    background: none; border: none; cursor: pointer;
+}
+.menu-toggle .bar { display: block; width: 25px; height: 3px; background-color: var(--text-color); margin: 5px 0; transition: 0.3s; }
+
+/* --- Forms & Buttons (Mobile) --- */
+.search-form { display: flex; flex-direction: column; gap: 10px; }
+.btn { background-color: var(--primary-color); color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-size: 1em; width: 100%; box-sizing: border-box; text-align: center; }
+/* Other UI Elements */
+.product-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.cart-container, .product-detail-container { display: flex; flex-direction: column; gap: 20px; }
+.product-detail-image img { width: 100%; border-radius: 8px; }
+.listings-table { display: block; width: 100%; overflow-x: auto; }
+
+/* =================================
+   TABLET STYLES (min-width: 768px)
+   ================================= */
+@media (min-width: 768px) {
+    .container { max-width: 1200px; margin: 0 auto; }
+    .menu-toggle { display: none; } /* Hamburger menu-va maraikirom */
+    .nav-links { display: flex; flex-direction: row; position: static; width: auto; background-color: transparent; box-shadow: none; }
+    .nav-links li { border-top: none; }
+    .nav-links li a { padding: 0.5rem 1rem; }
+    .search-form { flex-direction: row; }
+    .btn { width: auto; }
+    .product-grid { grid-template-columns: repeat(3, 1fr); }
+    .cart-container { flex-direction: row; align-items: flex-start; }
+    .cart-items { flex: 2; } .cart-summary { flex: 1; }
+    .product-detail-container { flex-direction: row; }
+}
+
+/* =================================
+   DESKTOP STYLES (min-width: 1024px)
+   ================================= */
+@media (min-width: 1024px) {
+    .product-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* =================================
+   REUSABLE COMPONENT STYLES
+   ================================= */
+.page-header { text-align: center; margin-bottom: 30px; }
+.form-container, .auth-form-container { background-color: var(--card-bg-color); padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 500px; margin: 40px auto; }
+.form-group { margin-bottom: 20px; }
+.form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box; }
+.product-card { background-color: var(--card-bg-color); border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; }
+.product-card a { text-decoration: none; color: inherit; }
+.product-image { width: 100%; height: 200px; object-fit: cover; }
+.product-info { padding: 15px; }
+.product-price { font-size: 1.2em; font-weight: bold; color: var(--primary-color); }
+.seller-link { color: #555; font-size: 0.9em; text-decoration: none; }
+.seller-link:hover { text-decoration: underline; }
+.user-profile-header { text-align: center; margin-bottom: 40px; }
+footer { text-align: center; margin-top: 40px; padding: 20px; background-color: #333; color: #fff; }
+
+/* =================================
+   Puthu Style for My Listings Page
+   ================================= */
+
+.listings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.listing-card {
+    background-color: var(--card-bg-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column; /* Mobile-la ondru keezh ondru varum */
+    gap: 1rem;
+}
+
+.listing-card-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    align-self: center; /* Mobile-la image center-la irukum */
+}
+
+.listing-card-details {
+    flex-grow: 1; /* Irukura space-ah idhu eduthukum */
+    text-align: center; /* Mobile-la text center-la irukum */
+}
+
+.listing-card-details h3 {
+    margin: 0 0 0.5rem 0;
+}
+
+.listing-card-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 0 0 0.5rem 0;
+}
+
+.listing-card-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+.status-available {
+    background-color: #28a745; /* Green */
+}
+
+.status-sold {
+    background-color: #dc3545; /* Red */
+}
+
+.listing-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center; /* Mobile-la buttons center-la varum */
+}
+
+.listing-card-actions .btn {
+    padding: 8px 16px;
+    font-size: 0.9em;
+}
+
+.btn-edit {
+    background-color: #007bff; /* Blue */
+}
+.btn-delete {
+    background-color: #dc3545; /* Red */
+}
+
+
+/* --- Desktop-ku Responsive aakurom --- */
+@media (min-width: 768px) {
+    .listing-card {
+        flex-direction: row; /* Periya screen-la pakkathu pakkathula varum */
+        align-items: center;
+        text-align: left;
+    }
+
+    .listing-card-image {
+        align-self: flex-start;
+    }
+
+    .listing-card-details {
+        text-align: left;
+    }
+    
+    .listing-card-actions {
+        justify-content: flex-end;
+    }
+}
+
+/* Dashboard Earnings Display Style */
+.dashboard-summary {
+    background-color: #e8f5e9; /* Light green background */
+    border-left: 5px solid var(--primary-color);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+}
+.dashboard-summary h3 {
+    margin: 0 0 0.5rem 0;
+}
+.earnings-display {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+/* Dashboard Page Styles */
+.dashboard-summary {
+    background-color: #e8f5e9;
+    border-left: 5px solid var(--primary-color);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+}
+.dashboard-summary h3 {
+    margin: 0 0 0.5rem 0;
+}
+.earnings-display {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 0;
+}
+.section-divider {
+    border: 0;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 2rem 0;
+}
+.dashboard-section h3 {
+    margin-top: 0;
+}
+
+/* Styles for new Add Product fields */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.checkbox-group input[type="checkbox"] {
+    width: auto; /* Checkbox-oda default width */
+}
+
+/* Styles for Product Detail specs */
+.product-specs-container {
+    background-color: var(--card-bg-color);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.specs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile-la oru column */
+    gap: 1rem;
+}
+.specs-list li {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.specs-list li:last-child {
+    border-bottom: none;
+}
+.specs-list strong {
+    color: #555;
+    margin-right: 0.5rem;
+}
+/* Tablet and desktop-ku rendu column */
+@media (min-width: 768px) {
+    .specs-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+/* =================================
+   Puthu RESPONSIVE Search Element Style
+   ================================= */
+
+.filter-bar {
+    border: none;
+    box-shadow: none;
+    margin-bottom: 2rem;
+}
+
+/* --- Mobile Style (Default) --- */
+.search-form {
+    display: flex;
+    flex-direction: column; /* Mobile-la ondru keezh ondru varum */
+    gap: 10px; /* Ovvoru element-kum naduvula chinna gap */
+    background-color: #fff;
+    border-radius: 20px; /* Chinna rounded corner */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+    border: 1px solid #eee;
+    padding: 10px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd; /* Mobile-la chinna border kaatrom */
+    border-radius: 10px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    height: 20px;
+    width: 20px;
+    fill: #aaa;
+    transition: fill 0.3s;
+}
+
+.search-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 15px 20px 15px 50px;
+    font-size: 1rem;
+}
+
+.category-select {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    background-color: #f9f9f9;
+    padding: 15px 20px;
+    font-size: 1rem;
+    color: #555;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: .65em auto;
+}
+
+.btn.btn-filter {
+    width: 100%; /* Mobile-la full width button */
+    padding: 15px 30px;
+    font-weight: bold;
+}
+
+.search-input-wrapper:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+.search-input-wrapper:focus-within .search-icon {
+    fill: var(--primary-color);
+}
+
+/* --- Tablet and Desktop Style (Periya Screen) --- */
+@media (min-width: 768px) {
+    .search-form {
+        flex-direction: row; /* Pakkathula pakkathula varum */
+        border-radius: 50px; /* Thirumba full rounded aakrom */
+        padding: 5px;
+        gap: 0;
+    }
+
+    .search-input-wrapper {
+        border: none; /* Periya screen-la border theva illa */
+        flex-grow: 1;
+    }
+
+    .category-select {
+        width: auto; /* Auto width aakrom */
+        border: none;
+        border-left: 1px solid #eee; /* Chinna separator mattum podhum */
+        border-radius: 0;
+        background-color: transparent;
+        padding: 0 25px;
+    }
+
+    .btn.btn-filter {
+        width: auto;
+        border-radius: 50px;
+        padding: 12px 30px;
+    }
+}
+/* Product Detail Image Gallery */
+.product-gallery {
+    flex: 1; /* Konjam perusa kaatum */
+}
+.main-image-container {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+.main-image-container img {
+    width: 100%;
+    display: block;
+}
+.thumbnail-container {
+    display: flex;
+    gap: 10px;
+}
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+.thumbnail:hover {
+    border-color: var(--primary-color);
+}
+/* =================================
+   Product Detail Page Layout Fix
+   ================================= */
+@media (min-width: 768px) {
+    .product-detail-container {
+        display: flex;
+        flex-direction: row; /* Periya screen-la pakkathula pakkathula varum */
+        gap: 2rem;
+    }
+
+    .product-gallery {
+        flex: 1 1 50%; /* Image section 50% eduthukum */
+        max-width: 50%;
+    }
+
+    .product-detail-info {
+        flex: 1 1 50%; /* Details section 50% eduthukum */
+        max-width: 50%;
+    }
+}
+/* =================================
+   Cart Page Responsive Style Update
+   ================================= */
+
+/* --- Mobile Style (Default) --- */
+.cart-container {
+    display: flex;
+    flex-direction: column; /* Mobile-la ondru keezh ondru varum */
+    gap: 1.5rem;
+}
+
+.cart-item-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--card-bg-color);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+/* Image size-ah fix panrom */
+.cart-item-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+.cart-item-details {
+    flex-grow: 1;
+}
+
+.cart-item-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 1.1em;
+}
+
+.cart-item-details h4 a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+.cart-item-details h4 a:hover {
+    color: var(--primary-color);
+}
+
+
+.cart-item-details p {
+    margin: 0;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+/* Remove button-ku style */
+.cart-item-remove {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    text-decoration: none;
+    color: #aaa;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1;
+}
+.cart-item-remove:hover {
+    color: #dc3545; /* Red */
+}
+
+.cart-summary {
+    background: var(--card-bg-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    height: fit-content;
+}
+
+.btn-large {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+}
+
+/* --- Tablet and Desktop Style --- */
+@media (min-width: 768px) {
+    .cart-container {
+        flex-direction: row; /* Periya screen-la pakkathu pakkathula varum */
+        align-items: flex-start;
+    }
+    .cart-items {
+        flex: 2; /* Items section perusa irukum */
+    }
+    .cart-summary {
+        flex: 1; /* Summary section chinnatha irukum */
+        position: sticky; /* Scroll pannalum, summary angye irukum */
+        top: 20px;
+    }
+}
+.error{
+    color: red;
+}
+.success{
+    color: green;
+}
+/* =================================
+   Manage Requests Page Style
+   ================================= */
+
+.request-card {
+    background-color: var(--card-bg-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-left: 5px solid #ffc107; /* Yellow border to indicate pending */
+}
+
+.request-card-details {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.buyer-info {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.btn-success {
+    background-color: #28a745; /* Green */
+}
+
+@media (min-width: 768px) {
+    .request-card {
+        flex-direction: row;
+        align-items: center;
+    }
+    .request-card-details {
+        text-align: left;
+    }
+}
+/* =================================
+   Notification System Styles
+   ================================= */
+.nav-icon {
+    display: flex;
+    align-items: center;
+}
+.notification-bell {
+    position: relative;
+    font-size: 1.5rem;
+    padding: 0 1rem;
+    color: #555;
+}
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    background-color: #dc3545; /* Red */
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+.notifications-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.notification-item {
+    display: block;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    color: var(--text-color);
+    border-left: 5px solid #ccc;
+    transition: background-color 0.3s;
+}
+.notification-item:hover {
+    background-color: #f9f9f9;
+}
+.notification-unread {
+    background-color: #e8f5e9;
+    border-left-color: var(--primary-color);
+    font-weight: bold;
+}
+.notification-time {
+    font-size: 0.8em;
+    color: #777;
+    margin-top: 0.5rem;
+    font-weight: normal;
+}
+/* =================================
+   Contact Buyer Button Style
+   ================================= */
+.btn-contact {
+    background-color: #007bff; /* Blue */
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: top;
+}
+.listing-card-actions .btn,
+.listing-card-actions .btn-contact {
+    padding: 8px 12px;
+    font-size: 0.9em;
+}
+/* =================================
+   Notification Icon Responsive Hide
+   ================================= */
+
+/* Mobile-la default-ah notification icon-ah maraikirom (hide panrom) */
+.nav-icon {
+    display: none;
+}
+
+/* Periya screen-la (tablet/desktop) thirumba kaatrom */
+@media (min-width: 768px) {
+    .nav-icon {
+        display: flex; /* 'flex' use panrathaala antha bell icon neat-ah center-la irukum */
+    }
+}
+/* =================================
+   Call Buyer Button Style
+   ================================= */
+.btn-call {
+    background-color: #17a2b8; /* Teal color */
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: top;
+}
+
+/* Ellame ore size-la iruka */
+.listing-card-actions .btn,
+.listing-card-actions .btn-contact,
+.listing-card-actions .btn-call {
+    padding: 8px 12px;
+    font-size: 0.9em;
+}
+/* =================================
+   My Orders Page Status Colors
+   ================================= */
+
+/* Oru card-oda default style-ah konjam maathrom */
+.listing-card {
+    border-left: 5px solid transparent; /* Default-ah border transparent-ah irukum */
+}
+
+/* Pending-la irukura orders-ku yellow border */
+.listing-card.order-pending {
+    border-left-color: #ffc107; /* Yellow */
+}
+
+/* Approved aana orders-ku green border */
+.listing-card.order-approved {
+    border-left-color: #28a745; /* Green */
+}
+
+/* Status text-ku colors (a kenave irukalam, but just in case) */
+.status-approved {
+    background-color: #28a745;
+}
+.status-pending_approval {
+    background-color: #ffc107;
+    color: #333; /* Yellow mela white nalla theriyathu */
+}
+.status-rejected {
+    background-color: #dc3545;
+}
